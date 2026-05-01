@@ -1,14 +1,12 @@
-// Record ad.html → PNG frame sequence at deterministic virtual time
-// Then assembled to MP4 by render.sh
+// Real-time screencast capture from headless Chrome.
+// Uses CDP Page.startScreencast which streams frames as they're rendered.
+// Output: PNG frames + concat.txt for ffmpeg variable-framerate assembly.
 
 const puppeteer = require('puppeteer-core');
 const path = require('path');
 const fs = require('fs');
 
-const FPS = 30;
-const DURATION = 36;            // seconds — covers full 35s + buffer
-const TOTAL_FRAMES = FPS * DURATION;
-const FRAME_BUDGET = 1000 / FPS; // ms of virtual time per frame
+const DURATION_MS = 36000;
 const OUT_DIR = path.resolve(__dirname, 'frames');
 const AD_PATH = `file://${path.resolve(__dirname, '..', 'ad.html')}`;
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -22,58 +20,76 @@ const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
     headless: 'new',
     args: [
       '--hide-scrollbars',
-      '--disable-web-security',
       '--no-sandbox',
       '--font-render-hinting=none',
-      '--force-color-profile=srgb'
+      '--force-color-profile=srgb',
+      '--disable-gpu-vsync',
+      '--disable-frame-rate-limit'
     ]
   });
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
 
-  // Navigate first (real time) so fonts + assets actually load
-  await page.goto(AD_PATH, { waitUntil: 'load', timeout: 30000 });
-
-  // Wait for fonts to settle in real time
-  await page.evaluate(() => document.fonts.ready);
-  await new Promise(r => setTimeout(r, 1500));
-
-  // NOW take control of virtual time for deterministic frame capture
   const client = await page.target().createCDPSession();
-  await client.send('Emulation.setVirtualTimePolicy', { policy: 'pause' });
 
-  // Advance 400ms virtual time so the setTimeout(start, 300) inside ad.html fires
-  await client.send('Emulation.setVirtualTimePolicy', {
-    policy: 'pauseIfNetworkFetchesPending',
-    budget: 400
+  // Frame collector
+  let frameCount = 0;
+  let firstTimestamp = null;
+  const frameLog = [];
+
+  client.on('Page.screencastFrame', async ({ data, sessionId, metadata }) => {
+    if (firstTimestamp === null) firstTimestamp = metadata.timestamp;
+    const tSec = metadata.timestamp - firstTimestamp;
+    const filename = `f_${String(frameCount).padStart(5, '0')}.png`;
+    fs.writeFileSync(path.join(OUT_DIR, filename), Buffer.from(data, 'base64'));
+    frameLog.push({ idx: frameCount, t: tSec, file: filename });
+    frameCount++;
+    if (frameCount % 30 === 0) console.log(`  captured ${frameCount} frames (t=${tSec.toFixed(2)}s)`);
+    try { await client.send('Page.screencastFrameAck', { sessionId }); } catch (e) {}
   });
-  await new Promise(r => setTimeout(r, 100));
 
-  console.log(`Recording ${TOTAL_FRAMES} frames at ${FPS}fps (${DURATION}s)`);
-  const start = Date.now();
+  // Navigate first
+  await page.goto(AD_PATH, { waitUntil: 'load', timeout: 30000 });
+  await page.evaluate(() => document.fonts.ready);
+  await new Promise(r => setTimeout(r, 1000));
 
-  for (let i = 0; i < TOTAL_FRAMES; i++) {
-    // Advance virtual time by one frame
-    await client.send('Emulation.setVirtualTimePolicy', {
-      policy: 'pauseIfNetworkFetchesPending',
-      budget: FRAME_BUDGET
-    });
-    // Tiny real-time wait so paint completes
-    await new Promise(r => setTimeout(r, 6));
+  // Hide on-screen chrome (controls, counter, progress) for clean recording
+  await page.addStyleTag({
+    content: `.controls, .counter, .progress { display: none !important; }`
+  });
 
-    const filename = path.join(OUT_DIR, `f_${String(i).padStart(5, '0')}.png`);
-    await page.screenshot({ path: filename, omitBackground: false });
+  // Wait until the animation has started (.stage gets .running class)
+  await page.waitForFunction(() => document.querySelector('.stage.running'), { timeout: 5000 });
 
-    if (i % 30 === 0) {
-      const sec = ((Date.now() - start) / 1000).toFixed(1);
-      console.log(`  ${i}/${TOTAL_FRAMES} (real ${sec}s)`);
-    }
-  }
+  console.log('Animation started — beginning screencast');
+  const startReal = Date.now();
 
+  await client.send('Page.startScreencast', {
+    format: 'png',
+    quality: 100,
+    everyNthFrame: 1
+  });
+
+  // Hold for full duration
+  await new Promise(r => setTimeout(r, DURATION_MS));
+
+  await client.send('Page.stopScreencast');
   await browser.close();
-  console.log(`Done. Frames in ${OUT_DIR}`);
-})().catch(err => {
-  console.error('FATAL', err);
-  process.exit(1);
-});
+
+  console.log(`Captured ${frameCount} frames in ${((Date.now()-startReal)/1000).toFixed(1)}s real time`);
+
+  // Write ffmpeg concat file with per-frame durations (variable frame rate)
+  let concat = '';
+  for (let i = 0; i < frameLog.length - 1; i++) {
+    const dur = Math.max(0.01, frameLog[i+1].t - frameLog[i].t);
+    concat += `file '${frameLog[i].file}'\nduration ${dur.toFixed(4)}\n`;
+  }
+  // Last frame — needs both file and duration, plus a trailing file line per ffmpeg docs
+  const last = frameLog[frameLog.length - 1];
+  concat += `file '${last.file}'\nduration 0.0333\n`;
+  concat += `file '${last.file}'\n`;
+  fs.writeFileSync(path.join(OUT_DIR, 'concat.txt'), concat);
+
+  console.log('Wrote concat.txt');
+})().catch(err => { console.error('FATAL', err); process.exit(1); });
