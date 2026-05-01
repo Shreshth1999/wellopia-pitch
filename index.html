@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wellopia — The Medicine War</title>
+<meta name="description" content="A 5-slide pitch deck for Wellopia's Throat Relief Spray ad — Mesa Brand Week 2026." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --yellow: #FFC72C;
+    --yellow-deep: #F0B400;
+    --yellow-soft: #FFE8A3;
+    --green: #0F3D2E;
+    --green-deep: #062418;
+    --green-soft: #2A6B52;
+    --green-mute: #4A8770;
+    --cream: #FFF8E7;
+    --white: #FFFFFF;
+    --line: rgba(15, 61, 46, 0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--green-deep);
+    color: var(--green);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: var(--yellow);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 8vw;
+    background: var(--yellow);
+    opacity: 0;
+    transform: scale(1.02);
+    pointer-events: none;
+    transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  /* Animation primitive */
+  .anim {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  .slide.active .anim {
+    animation: rise 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Floating shapes */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .shape-1 {
+    top: -120px;
+    right: -120px;
+    width: 380px;
+    height: 380px;
+    background: var(--yellow-deep);
+    opacity: 0.35;
+    animation: drift 14s ease-in-out infinite;
+  }
+  .shape-2 {
+    bottom: -160px;
+    left: -100px;
+    width: 320px;
+    height: 320px;
+    background: var(--green);
+    opacity: 0.05;
+    animation: drift 18s ease-in-out infinite reverse;
+  }
+  .shape-pill {
+    position: absolute;
+    width: 110px;
+    height: 24px;
+    background: var(--green);
+    border-radius: 999px;
+    opacity: 0.08;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50%      { transform: translate(20px, -16px) rotate(8deg); }
+  }
+
+  /* Top mast */
+  .mast {
+    position: absolute;
+    top: 30px;
+    left: 8vw;
+    right: 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    z-index: 5;
+  }
+  .mast .dot-sep {
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 0.7em;
+    vertical-align: middle;
+  }
+
+  /* Typography */
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--green-soft);
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 36px; height: 2px;
+    background: var(--green);
+    display: inline-block;
+  }
+
+  .display {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--green);
+  }
+
+  h1.hero {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(3.2rem, 7.4vw, 7rem);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin-bottom: 1.4rem;
+    max-width: 14ch;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2.4rem, 5.4vw, 4.5rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--green);
+    margin-bottom: 1.1rem;
+    max-width: 18ch;
+  }
+
+  .subhead {
+    font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+    font-weight: 500;
+    color: var(--green-soft);
+    margin-bottom: 2rem;
+    max-width: 42em;
+    line-height: 1.45;
+  }
+
+  .body {
+    font-size: clamp(0.95rem, 1.18vw, 1.1rem);
+    line-height: 1.6;
+    max-width: 38em;
+    color: var(--green);
+  }
+  .body p + p { margin-top: 0.7rem; }
+  .body strong { font-weight: 700; color: var(--green-deep); }
+
+  ul.clean {
+    list-style: none;
+    font-size: clamp(0.95rem, 1.18vw, 1.1rem);
+    color: var(--green);
+  }
+  ul.clean li {
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  ul.clean li:last-child { border-bottom: 1px solid var(--line); }
+  ul.clean li .marker {
+    flex-shrink: 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05em;
+    color: var(--green-deep);
+    font-weight: 400;
+    width: 1.6em;
+  }
+  ul.clean strong { font-weight: 700; }
+  ul.clean em { font-style: italic; color: var(--green-soft); }
+
+  .callout {
+    background: var(--green);
+    color: var(--yellow);
+    padding: 1.6rem 2rem;
+    border-radius: 14px;
+    font-size: clamp(1rem, 1.35vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.45;
+    max-width: 44em;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .callout::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.5); opacity: 0.6; }
+  }
+
+  .quote {
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+    color: var(--green-soft);
+    border-left: 3px solid var(--green);
+    padding: 0.4rem 0 0.4rem 1.1rem;
+    margin-top: 1.5rem;
+    max-width: 42em;
+    line-height: 1.5;
+  }
+
+  /* Two col */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5vw;
+    margin-top: 1.5rem;
+    max-width: 80em;
+  }
+  .col h4 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 0.9rem;
+    color: var(--green-deep);
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--green);
+    display: inline-block;
+  }
+
+  /* Beat boxes */
+  .beats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin-top: 1.8rem;
+    max-width: 90em;
+  }
+  .beat {
+    background: var(--green);
+    color: var(--cream);
+    padding: 1.4rem 1.2rem 1.3rem;
+    border-radius: 14px;
+    position: relative;
+    min-height: 168px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .beat:hover { transform: translateY(-4px); }
+  .beat::after {
+    content: "";
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 80px; height: 80px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0.06;
+  }
+  .beat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .beat .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+  }
+  .beat .desc {
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  /* Slide 1 — title-hero combined */
+  .slide-1 {
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .slide-1 h1.hero {
+    font-size: clamp(3.6rem, 9vw, 8.5rem);
+    margin-top: 0.2rem;
+  }
+
+  .ladder {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.4rem;
+    max-width: 76em;
+  }
+  .ladder .step {
+    background: rgba(15, 61, 46, 0.06);
+    padding: 1.1rem 1.2rem;
+    border-radius: 12px;
+    border-left: 3px solid var(--green);
+  }
+  .ladder .step .k {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green-soft);
+    margin-bottom: 0.4rem;
+  }
+  .ladder .step .v {
+    font-size: 0.95rem;
+    color: var(--green);
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  /* Closing line */
+  .closing {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.7rem, 3.4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-top: 2rem;
+    color: var(--green-deep);
+    font-style: italic;
+    max-width: 22ch;
+  }
+
+  /* Lockup at bottom */
+  .lockup {
+    position: absolute;
+    bottom: 5vh;
+    left: 8vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    z-index: 4;
+  }
+  .lockup .name {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .lockup .tag {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--green-soft);
+  }
+
+  /* Chrome */
+  .chrome {
+    position: fixed;
+    z-index: 20;
+  }
+  .chrome.counter {
+    top: 30px;
+    right: 8vw;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .chrome.dots {
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+  }
+  .chrome .pip {
+    width: 24px;
+    height: 4px;
+    background: rgba(15, 61, 46, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+  .chrome .pip.active {
+    background: var(--green);
+    width: 44px;
+  }
+  .chrome .pip:hover {
+    background: rgba(15, 61, 46, 0.5);
+  }
+  .hint {
+    position: fixed;
+    bottom: 22px;
+    right: 28px;
+    font-size: 0.7rem;
+    color: var(--green-soft);
+    letter-spacing: 0.12em;
+    z-index: 20;
+    opacity: 0.7;
+  }
+  .hint kbd {
+    display: inline-block;
+    background: var(--green);
+    color: var(--yellow);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.65rem;
+    margin: 0 2px;
+  }
+
+  /* Print */
+  @media print {
+    html, body { overflow: visible; }
+    .deck { height: auto; }
+    .slide {
+      opacity: 1 !important;
+      transform: none !important;
+      position: relative;
+      page-break-after: always;
+      height: 100vh;
+    }
+    .slide .anim { opacity: 1 !important; transform: none !important; }
+    .chrome, .hint { display: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .beats { grid-template-columns: 1fr 1fr; }
+    .ladder { grid-template-columns: 1fr; }
+    .slide { padding: 9vh 6vw; }
+    .mast { left: 6vw; right: 6vw; }
+    .lockup { left: 6vw; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- SLIDE 1 — Title + Q1 Core Message -->
+  <section class="slide slide-1 active" data-slide="0">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="mast">
+      <div><span>Wellopia</span> <span class="dot-sep"></span> <span>The Medicine War</span></div>
+      <div>Mesa UG29 <span class="dot-sep"></span> Brand Week 2026</div>
+    </div>
+
+    <div class="anim eyebrow" style="animation-delay:0.1s;">01 — Core Message</div>
+    <h1 class="hero anim" style="animation-delay:0.18s;">Wellopia is the medicine kids ask for.</h1>
+    <div class="subhead anim" style="animation-delay:0.32s;max-width:34em;">A throat spray so clean, kind, and effective that the fight ends — and the child wants more.</div>
+
+    <div class="ladder">
+      <div class="step anim" style="animation-delay:0.46s;">
+        <div class="k">Brand Objective</div>
+        <div class="v">Trust + category clarity + emotional recall. Not "buy now."</div>
+      </div>
+      <div class="step anim" style="animation-delay:0.56s;">
+        <div class="k">The One Memory</div>
+        <div class="v">"This brand helps my child feel better — safely, naturally, without a fight."</div>
+      </div>
+      <div class="step anim" style="animation-delay:0.66s;">
+        <div class="k">Soft CTA</div>
+        <div class="v">Available on Amazon, Wellopia.in, and Quick Commerce.</div>
+      </div>
+    </div>
+
+    <div class="callout anim" style="animation-delay:0.8s;">
+      Tagline lockup at end card · <strong>Clean &amp; Joyful Care</strong> · Right care. Right time. Without the stress.
+    </div>
+
+    <div class="lockup">
+      <div class="name">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — Q2 Audience & Insight -->
+  <section class="slide" data-slide="1">
+    <div class="shape shape-1"></div>
+    <div class="mast">
+      <div><span>Wellopia</span> <span class="dot-sep"></span> <span>The Medicine War</span></div>
+      <div>Audience &amp; Insight</div>
+    </div>
+
+    <div class="anim eyebrow" style="animation-delay:0.1s;">02 — Audience &amp; Insight</div>
+    <h2 class="anim" style="animation-delay:0.18s;">Every Indian mom has lost the syrup battle.</h2>
+    <div class="subhead anim" style="animation-delay:0.32s;">Urban SEC A/A+ mothers · 28–40 · kids 2–10 · Tier 1 + affluent Tier 2 · reads ingredient lists · pays a premium for trust.</div>
+
+    <div class="two-col">
+      <div class="col anim" style="animation-delay:0.46s;">
+        <h4>The Insight</h4>
+        <div class="body">
+          The medicine-refusal moment is the most universal, least-talked-about parenting micro-frustration. Brands sell efficacy — but mothers are losing on <strong>compliance</strong>. We didn't invent the war. We just put it on screen first.
+        </div>
+      </div>
+      <div class="col anim" style="animation-delay:0.6s;">
+        <h4>Why She Sees Herself</h4>
+        <div class="body">
+          <p>The chaos is exaggerated. The emotion is real.</p>
+          <p>We don't shame her for struggling — we show her the struggle is universal.</p>
+          <p>We don't lecture. We laugh with her, then offer the way out.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote anim" style="animation-delay:0.78s;">"Most kids' wellness products are bought by moms but rejected by kids. That is bad product design." — Wellopia Brand Brief</div>
+
+    <div class="lockup">
+      <div class="name">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — Q3 Hook & Retention -->
+  <section class="slide" data-slide="2">
+    <div class="shape shape-1"></div>
+    <div class="mast">
+      <div><span>Wellopia</span> <span class="dot-sep"></span> <span>The Medicine War</span></div>
+      <div>Hook &amp; Retention</div>
+    </div>
+
+    <div class="anim eyebrow" style="animation-delay:0.1s;">03 — The Hook</div>
+    <h2 class="anim" style="animation-delay:0.18s;">The opening looks like a thriller. It's about cough syrup.</h2>
+    <div class="subhead anim" style="animation-delay:0.32s;">ECU on a dripping spoon. Tense military strings. Caption: <em>"Day 3. Operation: Cough Syrup."</em> A war movie about medicine — you can't scroll past the genre mismatch.</div>
+
+    <div class="anim" style="animation-delay:0.46s;">
+      <div style="font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;color:var(--green-deep);margin-bottom:0.4rem;">Retention Curve</div>
+      <div style="font-size:0.95rem;color:var(--green-soft);">Escalation every 5–7 seconds. Each cut faster than the last.</div>
+    </div>
+
+    <div class="beats">
+      <div class="beat anim" style="animation-delay:0.58s;">
+        <div class="num">01</div>
+        <div class="label">0–8s</div>
+        <div class="desc">Stealth attempt. Dad creeps. Kid says NAHI. Splat.</div>
+      </div>
+      <div class="beat anim" style="animation-delay:0.68s;">
+        <div class="num">02</div>
+        <div class="label">8–17s</div>
+        <div class="desc">Helmets. Gloves. Slow-mo ambush. Bigger fail. Geyser.</div>
+      </div>
+      <div class="beat anim" style="animation-delay:0.78s;">
+        <div class="num">03</div>
+        <div class="label">17–25s</div>
+        <div class="desc">The pivot. Wellopia spray. Two spritzes. Calm.</div>
+      </div>
+      <div class="beat anim" style="animation-delay:0.88s;">
+        <div class="num">04</div>
+        <div class="label">25–35s</div>
+        <div class="desc">"Aur?" Now WE hide it from the kid. Button.</div>
+      </div>
+    </div>
+
+    <div class="quote anim" style="animation-delay:1.02s;">Comedy needs setup — two failures earn the calm win. The "Aur?" line is the share trigger.</div>
+
+    <div class="lockup">
+      <div class="name">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — Q4 Big Idea + Tone + Format + Storytelling -->
+  <section class="slide" data-slide="3">
+    <div class="shape shape-1"></div>
+    <div class="mast">
+      <div><span>Wellopia</span> <span class="dot-sep"></span> <span>The Medicine War</span></div>
+      <div>Big Idea &amp; Craft</div>
+    </div>
+
+    <div class="anim eyebrow" style="animation-delay:0.1s;">04 — The Idea</div>
+    <h2 class="anim" style="animation-delay:0.18s;">We reversed the power dynamic.</h2>
+    <div class="subhead anim" style="animation-delay:0.32s;">Parents stop chasing the kid. The kid starts chasing the medicine. Wellopia isn't introduced as a product — it's the moment everything calms down.</div>
+
+    <div class="two-col">
+      <div class="col anim" style="animation-delay:0.46s;">
+        <h4>Tone — warm, never fearful</h4>
+        <div class="body">
+          <p>The brief explicitly forbids fear-based parenting marketing.</p>
+          <p>Self-deprecating parent comedy lets mom feel seen, not scared.</p>
+          <p>Chaos is on the parents. The kid is never afraid. The brand only enters in calm.</p>
+        </div>
+      </div>
+      <div class="col anim" style="animation-delay:0.6s;">
+        <h4>Format — vertical, Hinglish, iPhone-shot</h4>
+        <div class="body">
+          <p>9:16 because Reels &amp; Shorts is where the ICP lives.</p>
+          <p>Hinglish ("Aur?", "kuch aur tareeka hoga na?") — native to Tier 1 moms.</p>
+          <p>iPhone, lo-fi by design — feels like a real family, not stock-footage commercial.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout anim" style="animation-delay:0.78s;">
+      Three-act story in 35 seconds — Setup, two failed attempts, calm pivot, button. Captions carry the joke for the 85% who watch muted.
+    </div>
+
+    <div class="lockup">
+      <div class="name">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — Q5 Distinctiveness + Close -->
+  <section class="slide" data-slide="4">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="mast">
+      <div><span>Wellopia</span> <span class="dot-sep"></span> <span>The Medicine War</span></div>
+      <div>Why It Outperforms</div>
+    </div>
+
+    <div class="anim eyebrow" style="animation-delay:0.1s;">05 — Distinctiveness</div>
+    <h2 class="anim" style="animation-delay:0.18s;">The category sells fear. We sell relief.</h2>
+
+    <div class="two-col">
+      <div class="col anim" style="animation-delay:0.34s;">
+        <h4>What's Different</h4>
+        <ul class="clean">
+          <li><span class="marker">→</span><div>The kid is the brand advocate — not the doctor, not the mom.</div></li>
+          <li><span class="marker">→</span><div>The conflict reverses — parents end up hiding it from the kid.</div></li>
+          <li><span class="marker">→</span><div>Hinglish, sitcom-paced, anti-fear. The category goes serious; we go playful.</div></li>
+          <li><span class="marker">→</span><div>Compliance is shown, not claimed.</div></li>
+        </ul>
+      </div>
+      <div class="col anim" style="animation-delay:0.5s;">
+        <h4>Why It Drives Recall &amp; Preference</h4>
+        <ul class="clean">
+          <li><span class="marker">★</span><div><strong>Recall:</strong> three meme-able assets — the helmet shot, "Aur?", and "Now we hide this one."</div></li>
+          <li><span class="marker">★</span><div><strong>Engagement:</strong> parents will tag other parents. Shared frustration is the share trigger.</div></li>
+          <li><span class="marker">★</span><div><strong>Preference:</strong> brands that don't condescend or scare win trust.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="closing anim" style="animation-delay:0.7s;">We didn't sell a spray.<br />We sold the moment a parent stops fighting.</div>
+
+    <div class="lockup">
+      <div class="name">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care · Right care. Right time. Without the stress.</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Chrome -->
+<div class="chrome counter" id="counter">01 / 05</div>
+<div class="chrome dots" id="dots"></div>
+<div class="hint">Use <kbd>←</kbd> <kbd>→</kbd> to navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const pip = document.createElement('div');
+    pip.className = 'pip' + (i === 0 ? ' active' : '');
+    pip.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(pip);
+  });
+  const dots = document.querySelectorAll('.pip');
+
+  const pad = n => n.toString().padStart(2, '0');
+
+  function updateChrome() {
+    counter.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function retriggerAnims(slide) {
+    const anims = slide.querySelectorAll('.anim');
+    anims.forEach(el => {
+      const prev = el.style.animation;
+      el.style.animation = 'none';
+      // force reflow
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= slides.length || idx === current) return;
+    slides[current].classList.remove('active');
+    current = idx;
+    retriggerAnims(slides[current]);
+    slides[current].classList.add('active');
+    updateChrome();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      goTo(current - 1);
+    } else if (e.key === 'Home') {
+      goTo(0);
+    } else if (e.key === 'End') {
+      goTo(slides.length - 1);
+    }
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 60) goTo(current + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  updateChrome();
+</script>
+</body>
+</html>
