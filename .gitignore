@@ -3,3 +3,8 @@ node_modules/
 *.log
 .vscode/
 .idea/
+
+# Render intermediates — only the final MP4 ships
+render/frames/
+render/node_modules/
+render/package-lock.json

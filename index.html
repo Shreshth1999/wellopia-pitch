@@ -148,9 +148,19 @@
     transform: translateY(16px);
   }
 
+  .watch-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 2.4rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .slide.active .watch-row {
+    animation: subIn 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+  }
   .watch-link {
     display: inline-block;
-    margin-top: 2.4rem;
     padding: 0.7rem 1.2rem;
     border: 1.5px solid var(--green);
     border-radius: 999px;
@@ -160,17 +170,21 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--green);
+    background: transparent;
     text-decoration: none;
-    opacity: 0;
-    transform: translateY(12px);
     transition: background 0.25s, color 0.25s;
   }
   .watch-link:hover {
     background: var(--green);
     color: var(--yellow);
   }
-  .slide.active .watch-link {
-    animation: subIn 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+  .watch-link.alt {
+    border-color: var(--green-soft);
+    color: var(--green-soft);
+  }
+  .watch-link.alt:hover {
+    background: var(--green-soft);
+    color: var(--yellow);
   }
   .slide.active .sub {
     animation: subIn 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
@@ -486,7 +500,10 @@
       <div class="eyebrow">05 — Why It Wins</div>
       <h1 class="phrase split">We sold the moment a parent stops fighting.</h1>
       <div class="sub" style="animation-delay: 2.2s;">The category sells fear. We sell relief.</div>
-      <a class="watch-link" href="./ad.html" style="animation-delay: 3.2s;">▶ Watch the animated cut</a>
+      <div class="watch-row" style="animation-delay: 3.2s;">
+        <a class="watch-link" href="./ad.html">▶ Watch the animated cut</a>
+        <a class="watch-link alt" href="./wellopia_animated.mp4" download>↓ Download MP4</a>
+      </div>
     </div>
   </section>
 
