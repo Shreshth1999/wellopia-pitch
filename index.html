@@ -4,20 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Wellopia — The Medicine War</title>
-<meta name="description" content="A pitch for Wellopia's Throat Relief Spray — Mesa Brand Week 2026." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,200..600,0..100&display=swap" rel="stylesheet" />
 <style>
   :root {
     --yellow: #FFC72C;
-    --yellow-deep: #F0B400;
     --green: #0F3D2E;
-    --green-deep: #062418;
     --green-soft: #2A6B52;
-    --green-mute: #6B9A85;
-    --cream: #FFF8E7;
-    --line: rgba(15, 61, 46, 0.18);
+    --cream: #FFF6DA;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,8 +20,8 @@
   html, body {
     height: 100%;
     overflow: hidden;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--green-deep);
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--green);
     color: var(--green);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -37,316 +32,183 @@
     height: 100vh;
     position: relative;
     overflow: hidden;
-    background: var(--yellow);
   }
 
   .slide {
     position: absolute;
     inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8vh 9vw;
     background: var(--yellow);
-    color: var(--green);
+    display: flex;
+    align-items: center;
+    padding: 14vh 11vw;
     opacity: 0;
-    transform: translateX(60px);
+    transform: scale(1.03);
     pointer-events: none;
-    transition: opacity 0.55s cubic-bezier(0.2, 0.9, 0.2, 1),
-                transform 0.75s cubic-bezier(0.2, 0.9, 0.2, 1);
-    overflow: hidden;
+    transition: opacity 0.8s cubic-bezier(0.22, 0.9, 0.25, 1),
+                transform 1s cubic-bezier(0.22, 0.9, 0.25, 1);
     will-change: opacity, transform;
   }
 
   .slide.active {
     opacity: 1;
-    transform: translateX(0);
+    transform: scale(1);
     pointer-events: auto;
     z-index: 2;
   }
 
-  .slide.prev {
-    opacity: 0;
-    transform: translateX(-60px);
-  }
-
-  /* Inverted slide for impact break */
   .slide.invert {
     background: var(--green);
-    color: var(--cream);
   }
-  .slide.invert .eyebrow,
-  .slide.invert .num,
-  .slide.invert .sub,
-  .slide.invert .lockup .name,
-  .slide.invert .lockup .tag {
-    color: var(--yellow);
-  }
-  .slide.invert .eyebrow::before {
-    background: var(--yellow);
-  }
-  .slide.invert .display {
-    color: var(--cream);
-  }
-  .slide.invert .tag-chip {
-    border-color: var(--yellow);
-    color: var(--yellow);
-  }
-  .slide.invert .shape-bg { color: var(--yellow); }
+  .slide.invert .phrase { color: var(--cream); }
 
-  /* Background numeral as graphic */
-  .num {
-    position: absolute;
-    bottom: -3vh;
-    right: 3vw;
+  .phrase {
     font-family: 'Fraunces', Georgia, serif;
-    font-weight: 300;
-    font-variation-settings: "opsz" 144, "SOFT" 50;
-    font-size: clamp(24rem, 48vw, 60rem);
-    line-height: 0.78;
+    font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 320;
+    font-weight: 320;
+    font-size: clamp(3rem, 8.6vw, 9rem);
+    line-height: 0.96;
+    letter-spacing: -0.028em;
     color: var(--green);
-    opacity: 0.07;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: -0.06em;
-    z-index: 0;
-  }
-
-  .slide.active .num {
-    animation: numIn 1.4s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
-  }
-  @keyframes numIn {
-    from { opacity: 0; transform: translateY(60px) scale(0.95); }
-    to   { opacity: 0.07; transform: translateY(0) scale(1); }
-  }
-
-  /* Mast */
-  .mast {
-    position: absolute;
-    top: 36px;
-    left: 9vw;
-    right: 9vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--green);
-    z-index: 5;
-  }
-  .slide.invert .mast { color: var(--yellow); }
-  .mast .sep {
-    display: inline-block;
-    width: 4px; height: 4px;
-    background: currentColor;
-    border-radius: 50%;
-    margin: 0 0.7em;
-    vertical-align: middle;
-  }
-
-  /* Content */
-  .content {
-    position: relative;
-    z-index: 1;
     max-width: 18ch;
   }
 
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--green-soft);
-    margin-bottom: 2.4rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    overflow: hidden;
-  }
-  .eyebrow::before {
-    content: "";
-    width: 0;
-    height: 2px;
-    background: var(--green);
-    display: inline-block;
-    transition: none;
-  }
-  .slide.active .eyebrow::before {
-    animation: lineDraw 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) 0.15s forwards;
-  }
-  @keyframes lineDraw {
-    from { width: 0; }
-    to   { width: 60px; }
-  }
-
-  .display {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 400;
-    font-variation-settings: "opsz" 144, "SOFT" 30;
-    font-size: clamp(3.2rem, 8.4vw, 8.5rem);
-    line-height: 0.94;
-    letter-spacing: -0.025em;
-    color: var(--green);
-    margin-bottom: 1.8rem;
-  }
-
-  /* Word stagger */
   .word {
     display: inline-block;
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(36px);
     will-change: opacity, transform;
   }
   .slide.active .word {
-    animation: wordRise 0.85s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+    animation: rise 1s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
   }
-  @keyframes wordRise {
+  @keyframes rise {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .sub {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 300;
-    font-style: italic;
-    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+  /* Period emphasis */
+  .phrase .punct {
     color: var(--green-soft);
-    line-height: 1.4;
-    max-width: 28ch;
-    opacity: 0;
-    transform: translateY(20px);
-    will-change: opacity, transform;
   }
-  .slide.active .sub {
-    animation: subIn 0.8s cubic-bezier(0.2, 0.9, 0.2, 1) 0.7s forwards;
-  }
-  @keyframes subIn {
-    to { opacity: 1; transform: translateY(0); }
+  .slide.invert .phrase .punct {
+    color: var(--yellow);
+    opacity: 0.85;
   }
 
-  /* Tag chips */
-  .tags {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-  }
-  .tag-chip {
-    border: 1.5px solid var(--green);
-    color: var(--green);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    padding: 0.55rem 0.95rem;
-    border-radius: 999px;
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  .slide.active .tag-chip {
-    animation: subIn 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
-  }
-  .slide.active .tag-chip:nth-child(1) { animation-delay: 1.0s; }
-  .slide.active .tag-chip:nth-child(2) { animation-delay: 1.1s; }
-  .slide.active .tag-chip:nth-child(3) { animation-delay: 1.2s; }
-  .slide.active .tag-chip:nth-child(4) { animation-delay: 1.3s; }
-
-  /* Lockup */
+  /* Brand lockup — bottom left */
   .lockup {
-    position: absolute;
-    bottom: 5vh;
-    left: 9vw;
+    position: fixed;
+    bottom: 4.4vh;
+    left: 4.4vw;
+    z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: 0.18rem;
-    z-index: 4;
+    gap: 2px;
+    transition: color 0.6s;
   }
   .lockup .name {
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.28em;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
     color: var(--green);
   }
   .lockup .tag {
     font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 0.78rem;
+    font-weight: 300;
+    font-size: 0.7rem;
     color: var(--green-soft);
   }
+  body.inv .lockup .name { color: var(--yellow); }
+  body.inv .lockup .tag { color: var(--cream); opacity: 0.7; }
 
-  /* Chrome */
-  .chrome {
-    position: fixed;
-    z-index: 20;
-  }
+  /* Counter — bottom right */
   .counter {
-    top: 36px;
-    right: 9vw;
-    font-size: 0.7rem;
+    position: fixed;
+    bottom: 4.4vh;
+    right: 4.4vw;
+    z-index: 10;
+    font-size: 0.66rem;
     font-weight: 700;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
+    letter-spacing: 0.34em;
     color: var(--green);
-    transition: color 0.4s;
-  }
-  body.invert-chrome .counter { color: var(--yellow); }
-
-  .dots {
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 14px;
+    transition: color 0.6s;
   }
-  .pip {
-    width: 22px;
-    height: 3px;
-    background: rgba(15, 61, 46, 0.22);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background 0.4s, width 0.4s;
+  .counter .now {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0;
   }
-  .pip.active {
-    background: var(--green);
-    width: 44px;
+  .counter .total {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: 0;
+    opacity: 0.5;
   }
-  body.invert-chrome .pip { background: rgba(255, 232, 167, 0.3); }
-  body.invert-chrome .pip.active { background: var(--yellow); }
+  .counter .bar {
+    width: 60px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+  body.inv .counter { color: var(--yellow); }
 
+  /* Hint — auto-hides */
   .hint {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
-    font-size: 0.65rem;
+    top: 4.4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
     color: var(--green-soft);
-    letter-spacing: 0.18em;
-    z-index: 20;
-    opacity: 0.6;
     text-transform: uppercase;
+    opacity: 0.5;
+    transition: opacity 0.6s, color 0.6s;
   }
-  body.invert-chrome .hint { color: var(--yellow); opacity: 0.5; }
+  .hint.hide { opacity: 0; }
+  body.inv .hint { color: var(--cream); opacity: 0.4; }
+  body.inv .hint.hide { opacity: 0; }
 
-  /* Title slide special */
-  .slide-title .display {
-    font-size: clamp(4rem, 11vw, 11rem);
-    max-width: 13ch;
-    line-height: 0.9;
+  /* Background ambient — extremely subtle breathing */
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 30% 40%,
+      rgba(255, 255, 255, 0.18),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 1.2s;
+    pointer-events: none;
   }
-  .slide-title .content { max-width: 22ch; }
-
-  /* Close slide hero */
-  .slide-close .display {
-    font-size: clamp(3rem, 7.4vw, 7.2rem);
-    max-width: 18ch;
-    font-style: italic;
+  .slide.active::before {
+    opacity: 1;
+    animation: breathe 9s ease-in-out infinite alternate;
   }
-  .slide-close .content { max-width: 30ch; }
+  @keyframes breathe {
+    from { transform: translate(-2%, -1%) scale(1); }
+    to   { transform: translate(2%, 1%) scale(1.05); }
+  }
+  .slide.invert::before {
+    background: radial-gradient(
+      ellipse at 30% 40%,
+      rgba(255, 199, 44, 0.07),
+      transparent 60%
+    );
+  }
 
-  /* Print / export */
+  /* Print */
   @media print {
-    html, body { overflow: visible; height: auto; }
+    html, body { overflow: visible; height: auto; background: var(--yellow); }
     .deck { height: auto; }
     .slide {
       opacity: 1 !important;
@@ -355,214 +217,138 @@
       page-break-after: always;
       height: 100vh;
     }
-    .slide .word, .slide .sub, .slide .tag-chip, .slide .num { opacity: 1 !important; transform: none !important; }
-    .slide .num { opacity: 0.07 !important; }
-    .chrome, .hint { display: none; }
+    .slide .word { opacity: 1 !important; transform: none !important; }
+    .hint { display: none; }
   }
 
   @media (max-width: 700px) {
-    .mast { left: 6vw; right: 6vw; font-size: 0.62rem; }
+    .slide { padding: 16vh 7vw; }
     .lockup { left: 6vw; }
-    .slide { padding: 12vh 6vw; }
-    .num { font-size: 18rem; }
+    .counter { right: 6vw; }
   }
 </style>
 </head>
 <body>
 <div class="deck">
-
-  <!-- 01 — Title + Message -->
-  <section class="slide slide-title active" data-slide="0">
-    <div class="num">1</div>
-    <div class="mast">
-      <div>Wellopia <span class="sep"></span> The Medicine War</div>
-      <div>Mesa UG29 <span class="sep"></span> Brand Week 2026</div>
-    </div>
-    <div class="content">
-      <div class="eyebrow">01 — The Message</div>
-      <h1 class="display split">Kids ask for it.</h1>
-      <div class="sub">The medicine that ends the fight — not buys a moment of silence.</div>
-      <div class="tags">
-        <span class="tag-chip">Trust</span>
-        <span class="tag-chip">Clarity</span>
-        <span class="tag-chip">Recall</span>
-      </div>
-    </div>
-    <div class="lockup">
-      <div class="name">Wellopia</div>
-      <div class="tag">Clean &amp; Joyful Care</div>
-    </div>
+  <section class="slide active" data-i="0">
+    <h1 class="phrase split">Kids ask for it.</h1>
   </section>
 
-  <!-- 02 — Insight -->
-  <section class="slide" data-slide="1">
-    <div class="num">2</div>
-    <div class="mast">
-      <div>Wellopia <span class="sep"></span> The Medicine War</div>
-      <div>The Insight</div>
-    </div>
-    <div class="content">
-      <div class="eyebrow">02 — The Insight</div>
-      <h2 class="display split">The syrup battle is universal.</h2>
-      <div class="sub">Bought by moms. Rejected by kids. Every Indian household knows the war.</div>
-      <div class="tags">
-        <span class="tag-chip">Urban Mom</span>
-        <span class="tag-chip">28–40</span>
-        <span class="tag-chip">SEC A+</span>
-      </div>
-    </div>
-    <div class="lockup">
-      <div class="name">Wellopia</div>
-      <div class="tag">Clean &amp; Joyful Care</div>
-    </div>
+  <section class="slide" data-i="1">
+    <h1 class="phrase split">The syrup battle is universal.</h1>
   </section>
 
-  <!-- 03 — Hook -->
-  <section class="slide" data-slide="2">
-    <div class="num">3</div>
-    <div class="mast">
-      <div>Wellopia <span class="sep"></span> The Medicine War</div>
-      <div>The Hook</div>
-    </div>
-    <div class="content">
-      <div class="eyebrow">03 — The Hook</div>
-      <h2 class="display split">It opens like a thriller.</h2>
-      <div class="sub">"Day 3. Operation: Cough Syrup." A war movie about medicine — you can't scroll past it.</div>
-      <div class="tags">
-        <span class="tag-chip">4 beats</span>
-        <span class="tag-chip">5–7s each</span>
-        <span class="tag-chip">35s total</span>
-      </div>
-    </div>
-    <div class="lockup">
-      <div class="name">Wellopia</div>
-      <div class="tag">Clean &amp; Joyful Care</div>
-    </div>
+  <section class="slide invert" data-i="2">
+    <h1 class="phrase split">Day 3. Operation: Cough Syrup.</h1>
   </section>
 
-  <!-- 04 — The Idea (INVERTED for impact) -->
-  <section class="slide invert" data-slide="3">
-    <div class="num">4</div>
-    <div class="mast">
-      <div>Wellopia <span class="sep"></span> The Medicine War</div>
-      <div>The Idea</div>
-    </div>
-    <div class="content">
-      <div class="eyebrow">04 — The Idea</div>
-      <h2 class="display split">We reversed the war.</h2>
-      <div class="sub">Parents stop chasing the kid. The kid starts asking for more.</div>
-      <div class="tags">
-        <span class="tag-chip">Hinglish</span>
-        <span class="tag-chip">9:16</span>
-        <span class="tag-chip">iPhone-shot</span>
-      </div>
-    </div>
-    <div class="lockup">
-      <div class="name">Wellopia</div>
-      <div class="tag">Clean &amp; Joyful Care</div>
-    </div>
+  <section class="slide" data-i="3">
+    <h1 class="phrase split">We reversed the war.</h1>
   </section>
 
-  <!-- 05 — Why It Wins / Close -->
-  <section class="slide slide-close" data-slide="4">
-    <div class="num">5</div>
-    <div class="mast">
-      <div>Wellopia <span class="sep"></span> The Medicine War</div>
-      <div>Why It Wins</div>
-    </div>
-    <div class="content">
-      <div class="eyebrow">05 — Why It Wins</div>
-      <h2 class="display split">We sold the moment a parent stops fighting.</h2>
-      <div class="sub">The category sells fear. We sell relief.</div>
-    </div>
-    <div class="lockup">
-      <div class="name">Wellopia</div>
-      <div class="tag">Right care. Right time. Without the stress.</div>
-    </div>
+  <section class="slide" data-i="4">
+    <h1 class="phrase split">We sold the moment a parent stops fighting.</h1>
   </section>
-
 </div>
 
-<!-- Chrome -->
-<div class="chrome counter" id="counter">01 / 05</div>
-<div class="chrome dots" id="dots"></div>
-<div class="hint">← →</div>
+<div class="lockup">
+  <div class="name">Wellopia</div>
+  <div class="tag">Clean &amp; Joyful Care</div>
+</div>
+
+<div class="counter">
+  <span class="bar"></span>
+  <span class="now" id="now">01</span>
+  <span class="total" id="total">05</span>
+</div>
+
+<div class="hint" id="hint">← →</div>
 
 <script>
-  // Wrap each word in a .word span for stagger animation
+  // Word-stagger split — keep punctuation visually distinct
   document.querySelectorAll('.split').forEach(el => {
     const words = el.textContent.trim().split(/\s+/);
-    el.innerHTML = words
-      .map((w, i) => `<span class="word" style="animation-delay:${0.18 + i * 0.07}s">${w}</span>`)
-      .join(' ');
+    el.innerHTML = words.map((w, i) => {
+      const delay = (0.25 + i * 0.11).toFixed(2);
+      // wrap trailing punctuation in a span for tonal color
+      const m = w.match(/^(.*?)([.,:;!?])?$/);
+      const core = m[1];
+      const punct = m[2] ? `<span class="punct">${m[2]}</span>` : '';
+      return `<span class="word" style="animation-delay:${delay}s">${core}${punct}</span>`;
+    }).join(' ');
   });
 
   const slides = document.querySelectorAll('.slide');
-  const counter = document.getElementById('counter');
-  const dotsContainer = document.getElementById('dots');
+  const now = document.getElementById('now');
+  const total = document.getElementById('total');
+  const hint = document.getElementById('hint');
   let current = 0;
 
-  // Build dots
-  slides.forEach((_, i) => {
-    const pip = document.createElement('div');
-    pip.className = 'pip' + (i === 0 ? ' active' : '');
-    pip.addEventListener('click', () => goTo(i));
-    dotsContainer.appendChild(pip);
-  });
-  const dots = document.querySelectorAll('.pip');
-
   const pad = n => n.toString().padStart(2, '0');
+  total.textContent = pad(slides.length);
 
-  function updateChrome() {
-    counter.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    // Toggle inverted chrome based on current slide
-    document.body.classList.toggle('invert-chrome', slides[current].classList.contains('invert'));
+  function update() {
+    now.textContent = pad(current + 1);
+    document.body.classList.toggle('inv', slides[current].classList.contains('invert'));
   }
 
-  function retriggerAnims(slide) {
-    slide.querySelectorAll('.word, .sub, .tag-chip, .num, .eyebrow').forEach(el => {
-      // Clone-and-replace technique to fully reset animations
-      const cloned = el.cloneNode(true);
-      el.parentNode.replaceChild(cloned, el);
+  function retrigger(slide) {
+    slide.querySelectorAll('.word').forEach(w => {
+      const clone = w.cloneNode(true);
+      w.parentNode.replaceChild(clone, w);
     });
   }
 
-  function goTo(idx) {
+  function go(idx) {
     if (idx < 0 || idx >= slides.length || idx === current) return;
-    const out = slides[current];
-    out.classList.remove('active');
-    out.classList.add('prev');
-    setTimeout(() => out.classList.remove('prev'), 700);
+    slides[current].classList.remove('active');
     current = idx;
-    retriggerAnims(slides[current]);
+    retrigger(slides[current]);
     requestAnimationFrame(() => slides[current].classList.add('active'));
-    updateChrome();
+    update();
   }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
       e.preventDefault();
-      goTo(current + 1);
+      go(current + 1);
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
       e.preventDefault();
-      goTo(current - 1);
+      go(current - 1);
     } else if (e.key === 'Home') {
-      goTo(0);
+      go(0);
     } else if (e.key === 'End') {
-      goTo(slides.length - 1);
+      go(slides.length - 1);
     }
   });
 
+  // Click anywhere advances
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.lockup, .counter, .hint, a, button')) return;
+    go(current + 1);
+  });
+
   // Touch swipe
-  let touchStartX = 0;
-  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-  document.addEventListener('touchend', (e) => {
-    const dx = e.changedTouches[0].screenX - touchStartX;
-    if (Math.abs(dx) > 60) goTo(current + (dx < 0 ? 1 : -1));
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - tx;
+    if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
   }, { passive: true });
 
-  updateChrome();
+  // Auto-hide hint after 3.5s of no interaction
+  let hintTimer;
+  function showHint() {
+    hint.classList.remove('hide');
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(() => hint.classList.add('hide'), 3500);
+  }
+  showHint();
+  ['mousemove', 'keydown', 'touchstart'].forEach(ev =>
+    document.addEventListener(ev, showHint, { passive: true })
+  );
+
+  update();
 </script>
 </body>
 </html>
