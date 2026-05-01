@@ -1,34 +1,37 @@
 # Wellopia — The Medicine War
 
-A 5-slide pitch deck for **Wellopia's Throat Relief Spray** ad campaign.
-Built for **Mesa School of Business · Brand Week 2026**.
+A pitch package for **Wellopia's Throat Relief Spray** — Mesa Brand Week 2026.
 
-## The campaign
+## What's in this repo
 
-A 35-second Hinglish film about the universal medicine-refusal moment — and how Wellopia ends the fight. Two failed parental attempts (stealth, then full tactical gear) are followed by a calm spray win where the kid asks for *more*. The button: now the parents have to hide it from the kid.
+| File | What it is |
+|---|---|
+| `index.html` | The 5-slide pitch deck. Live: https://shreshth1999.github.io/wellopia-pitch/ |
+| `ad.html` | Animated motion-graphics version of the ad (35s, auto-plays). Live: https://shreshth1999.github.io/wellopia-pitch/ad.html |
+| `EDITOR_BRIEF.md` | World-class direction for editing the live-action footage (timing, music, sound design, color, cutdowns) |
 
 ## The deck
 
 Five slides, each answering one rubric question:
 
-1. **Core Message & Brief Alignment** — what we're saying and how it ladders
-2. **Audience & Insight** — who we're speaking to, why she sees herself
-3. **Hook & Retention** — the thriller open and the escalation curve
-4. **Big Idea & Craft** — the reversal, the tone, the format choices
-5. **Distinctiveness** — why it outperforms the category
+1. Core Message & Brief Alignment — *Kids ask for it.*
+2. Audience & Insight — *The syrup battle is universal.*
+3. Hook & Retention — *Day 3. Operation: Cough Syrup.*
+4. Big Idea & Craft — *We reversed the war.*
+5. Distinctiveness — *We sold the moment a parent stops fighting.*
 
-## View
+Slide 4 includes an animated SVG of the Wellopia spray bottle. Slide 5 links to the animated motion-graphics cut.
 
-Open `index.html` in any modern browser. Use `←` / `→` (or `space`) to navigate. Touch swipe works on mobile. Tab through pips at the bottom to jump.
+## Controls
 
-## Stack
+**Deck (`index.html`):** `←` `→` arrows, `space`, click anywhere to advance, swipe on mobile. Press `Cmd+P` to export to PDF.
 
-Single self-contained HTML file. No build step, no dependencies. Inter + DM Serif Display via Google Fonts. CSS animations only. Print-friendly stylesheet for PDF export.
+**Animated ad (`ad.html`):** Auto-plays on load. `R` to replay. `Esc` to return to the deck.
 
 ## Brand
 
-- **Yellow** `#FFC72C` — primary
-- **Forest Green** `#0F3D2E` — type and structure
-- **Cream** `#FFF8E7` — accent
+Yellow `#FFC72C`, forest green `#0F3D2E`, cream `#FFF6DA`. Fraunces (display) + Inter (UI). Tagline: *Clean & Joyful Care · Right care. Right time. Without the stress.*
 
-Tagline: *Clean & Joyful Care · Right care. Right time. Without the stress.*
+## Stack
+
+Self-contained HTML/CSS/SVG. No build step, no dependencies. Hosted on GitHub Pages.

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wellopia — The Medicine War (Animated)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Fraunces:opsz,wght,SOFT@9..144,200..700,0..100&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --yellow: #FFC72C;
+    --yellow-soft: #FFE49E;
+    --yellow-cold: #E5B028;
+    --green: #0F3D2E;
+    --green-soft: #2A6B52;
+    --cream: #FFF6DA;
+    --orange: #E8843F;
+    --black: #0A0F0D;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--black);
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--green);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: var(--yellow);
+    overflow: hidden;
+    transition: background 0.6s ease;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 8vh 8vw;
+    pointer-events: none;
+  }
+
+  /* Scene scheduling — uses .running to enable */
+  .running .s1 { animation: fade 3s ease 0s forwards; }
+  .running .s2 { animation: fade 6s ease 2.7s forwards; }
+  .running .s3 { animation: fade 4s ease 8.5s forwards; }
+  .running .s4 { animation: fade 4s ease 12.2s forwards; }
+  .running .s5 { animation: fade 6s ease 15.9s forwards; }
+  .running .s6 { animation: fade 4s ease 21.7s forwards; }
+  .running .s7 { animation: fade 4s ease 25.4s forwards; }
+  .running .s8 { animation: fade 6s ease 29.0s forwards; }
+
+  @keyframes fade {
+    0%      { opacity: 0; }
+    8%      { opacity: 1; }
+    88%     { opacity: 1; }
+    100%    { opacity: 0; }
+  }
+
+  /* === COMMON TYPE === */
+  .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    font-weight: 320;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--green);
+  }
+
+  .stamp {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-weight: 400;
+    font-size: clamp(5rem, 22vw, 18rem);
+    line-height: 0.85;
+    color: var(--green);
+    letter-spacing: -0.04em;
+  }
+
+  .case {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    opacity: 0.7;
+  }
+
+  .caption {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 1.6vw, 1.4rem);
+    text-align: center;
+    color: var(--green);
+    letter-spacing: 0.02em;
+  }
+
+  /* === SCENE 1 — Cold Open === */
+  .s1 .day {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 350;
+    font-size: clamp(3rem, 9vw, 9rem);
+    color: var(--green);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 1.4rem;
+    opacity: 0;
+  }
+  .running .s1 .day { animation: typeIn 1.0s cubic-bezier(0.2, 0.9, 0.25, 1) 0.4s forwards; }
+
+  .s1 .op {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.95rem, 1.5vw, 1.4rem);
+    color: var(--green);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-top: 2px solid var(--green);
+    border-bottom: 2px solid var(--green);
+    padding: 0.6rem 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .running .s1 .op { animation: typeIn 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) 1.5s forwards; }
+
+  @keyframes typeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === SCENE 2 — Two Failed Attempts (montage) === */
+  .s2 {
+    justify-content: flex-start;
+    padding-top: 16vh;
+    align-items: flex-start;
+  }
+  .s2 .head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+    opacity: 0;
+  }
+  .running .s2 .head { animation: typeIn 0.6s ease 0.2s forwards; }
+
+  .s2 .stamp {
+    font-size: clamp(4rem, 18vw, 14rem);
+    margin-bottom: 0.4rem;
+    opacity: 0;
+  }
+  .running .s2 .stamp { animation: stampIn 0.7s cubic-bezier(0.18, 0.9, 0.3, 1.1) 0.5s forwards; }
+
+  @keyframes stampIn {
+    from { opacity: 0; transform: scale(1.06) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .s2 .sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2.4vw, 2rem);
+    color: var(--green-soft);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+  }
+  .running .s2 .sub { animation: typeIn 0.6s ease 1.0s forwards; }
+
+  .s2 .strikes {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 2rem;
+  }
+  .strike {
+    width: 24px; height: 24px;
+    border: 2.5px solid var(--green);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.4);
+    position: relative;
+  }
+  .strike.x::after, .strike.x::before {
+    content: "";
+    position: absolute;
+    inset: 25%;
+    background: var(--green);
+    height: 2.5px;
+    top: 50%;
+    margin-top: -1.25px;
+  }
+  .strike.x::before { transform: rotate(45deg); }
+  .strike.x::after  { transform: rotate(-45deg); }
+
+  .running .s2 .strike:nth-child(1) { animation: strikeIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1.2) 1.5s forwards; }
+  .running .s2 .strike:nth-child(2) { animation: strikeIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1.2) 2.4s forwards; }
+  .running .s2 .strike:nth-child(3) { animation: strikeIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1.2) 3.3s forwards; }
+  .running .s2 .strike:nth-child(4) { animation: strikeIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1.2) 4.2s forwards; }
+
+  @keyframes strikeIn {
+    0%   { opacity: 0; transform: scale(0.4); }
+    60%  { opacity: 1; transform: scale(1.15); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* === SCENE 3 — The Geyser === */
+  .s3 {
+    background: var(--yellow);
+  }
+  .running .s3 { animation: fade 4s ease 8.5s forwards, geyserBg 1s ease 8.7s forwards; }
+
+  @keyframes geyserBg {
+    0%   { background: var(--yellow); }
+    20%  { background: var(--orange); }
+    50%  { background: var(--orange); }
+    100% { background: var(--yellow); }
+  }
+
+  .s3 .splash {
+    width: clamp(12rem, 40vw, 28rem);
+    height: clamp(12rem, 40vw, 28rem);
+    background: radial-gradient(circle at 50% 60%, var(--orange) 0%, var(--orange) 35%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    transform: scale(0);
+    filter: blur(6px);
+  }
+  .running .s3 .splash { animation: splashOut 1.4s cubic-bezier(0.18, 0.9, 0.3, 1) 0.1s forwards; }
+  @keyframes splashOut {
+    0%   { opacity: 0; transform: scale(0); }
+    30%  { opacity: 1; transform: scale(2); }
+    100% { opacity: 0; transform: scale(3.5); }
+  }
+
+  .s3 .verdict-stamp {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 400;
+    font-size: clamp(3rem, 13vw, 11rem);
+    color: var(--green);
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    text-align: center;
+    border: 6px solid var(--green);
+    padding: 0.8rem 2rem;
+    transform: rotate(-4deg);
+    opacity: 0;
+    background: var(--yellow);
+    z-index: 2;
+    position: relative;
+  }
+  .running .s3 .verdict-stamp { animation: stampSlam 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) 1.0s forwards; }
+
+  @keyframes stampSlam {
+    0%   { opacity: 0; transform: scale(2.4) rotate(-4deg); }
+    60%  { opacity: 1; transform: scale(0.94) rotate(-4deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-4deg); }
+  }
+
+  /* === SCENE 4 — Breakdown === */
+  .s4 {
+    background: var(--yellow-cold);
+  }
+  .running .s4 { animation: fade 4s ease 12.2s forwards; }
+
+  .s4 .quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 6.4vw, 6rem);
+    color: var(--green);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-align: center;
+    max-width: 18ch;
+    opacity: 0;
+  }
+  .running .s4 .quote { animation: typeIn 1.4s cubic-bezier(0.2, 0.9, 0.25, 1) 0.5s forwards; }
+
+  /* === SCENE 5 — Wellopia Reveal === */
+  .s5 {
+    background: var(--yellow);
+    flex-direction: row;
+    gap: 5vw;
+  }
+
+  .s5 .text-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 36ch;
+  }
+
+  .s5 .visual-side {
+    flex: 0 0 auto;
+    position: relative;
+  }
+
+  .s5 .head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+    opacity: 0;
+  }
+  .running .s5 .head { animation: typeIn 0.6s ease 0.5s forwards; }
+
+  .s5 .name {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 350;
+    font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+    color: var(--green);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+  }
+  .running .s5 .name { animation: typeIn 1s cubic-bezier(0.2, 0.9, 0.25, 1) 0.9s forwards; }
+
+  .s5 .props {
+    list-style: none;
+    margin-top: 1rem;
+  }
+  .s5 .props li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+    color: var(--green);
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(15, 61, 46, 0.2);
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  .s5 .props li:last-child { border-bottom: 1px solid rgba(15, 61, 46, 0.2); }
+  .running .s5 .props li:nth-child(1) { animation: slideIn 0.5s ease 1.6s forwards; }
+  .running .s5 .props li:nth-child(2) { animation: slideIn 0.5s ease 2.0s forwards; }
+  .running .s5 .props li:nth-child(3) { animation: slideIn 0.5s ease 2.4s forwards; }
+  .running .s5 .props li:nth-child(4) { animation: slideIn 0.5s ease 2.8s forwards; }
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* The animated bottle */
+  .bottle {
+    width: clamp(140px, 22vw, 280px);
+    filter: drop-shadow(0 30px 50px rgba(15, 61, 46, 0.18));
+    opacity: 0;
+    transform: translateY(60px) rotate(-2deg);
+  }
+  .running .s5 .bottle { animation: bottleRise 1.5s cubic-bezier(0.2, 0.9, 0.25, 1) 0.8s forwards, float 5s ease-in-out 2.5s infinite; }
+  @keyframes bottleRise {
+    to { opacity: 1; transform: translateY(0) rotate(0deg); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  .particle {
+    fill: var(--green);
+    opacity: 0;
+    transform-origin: 100px 38px;
+    transform-box: fill-box;
+  }
+  .running .s5 .particle {
+    animation-duration: 2.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .running .s5 .p1 { animation-name: spray1; animation-delay: 2.3s; }
+  .running .s5 .p2 { animation-name: spray2; animation-delay: 2.45s; }
+  .running .s5 .p3 { animation-name: spray3; animation-delay: 2.6s; }
+  .running .s5 .p4 { animation-name: spray4; animation-delay: 2.75s; }
+  .running .s5 .p5 { animation-name: spray5; animation-delay: 2.9s; }
+  .running .s5 .p6 { animation-name: spray6; animation-delay: 2.5s; }
+
+  @keyframes spray1 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.7;transform:translate(0,-8px) scale(1);} 100%{opacity:0;transform:translate(-32px,-68px) scale(0.3);} }
+  @keyframes spray2 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.6;transform:translate(0,-10px) scale(1);} 100%{opacity:0;transform:translate(-12px,-78px) scale(0.2);} }
+  @keyframes spray3 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.7;transform:translate(0,-7px) scale(1);} 100%{opacity:0;transform:translate(8px,-82px) scale(0.3);} }
+  @keyframes spray4 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.55;transform:translate(0,-6px) scale(1);} 100%{opacity:0;transform:translate(28px,-64px) scale(0.25);} }
+  @keyframes spray5 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.7;transform:translate(0,-8px) scale(1);} 100%{opacity:0;transform:translate(-22px,-56px) scale(0.2);} }
+  @keyframes spray6 { 0% {opacity:0;transform:translate(0,0) scale(0);} 10%{opacity:0.5;transform:translate(0,-5px) scale(1);} 100%{opacity:0;transform:translate(18px,-48px) scale(0.2);} }
+
+  /* === SCENE 6 — "Aur?" — the moment === */
+  .s6 {
+    background: var(--green);
+  }
+  .running .s6 { animation: fade 4s ease 21.7s forwards; }
+
+  .s6 .aur {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(8rem, 32vw, 28rem);
+    color: var(--cream);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  .running .s6 .aur { animation: aurIn 1.1s cubic-bezier(0.18, 0.9, 0.3, 1.05) 0.5s forwards; }
+  @keyframes aurIn {
+    0%   { opacity: 0; transform: scale(0.94); }
+    60%  { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .s6 .aur .qmark {
+    color: var(--yellow);
+    display: inline-block;
+    transform: translateY(0);
+  }
+  .running .s6 .qmark { animation: qBounce 0.8s cubic-bezier(0.18, 0.9, 0.3, 1.2) 1.2s forwards; }
+  @keyframes qBounce {
+    0%   { transform: translateY(-30px) rotate(-12deg); opacity: 0; }
+    60%  { transform: translateY(0) rotate(0); opacity: 1; }
+  }
+
+  .s6 .ctx {
+    position: absolute;
+    bottom: 12%;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    opacity: 0.7;
+  }
+  .running .s6 .ctx { animation: typeIn 0.6s ease 1.6s forwards; }
+
+  /* === SCENE 7 — The Button === */
+  .s7 {
+    background: var(--yellow);
+  }
+  .running .s7 { animation: fade 4s ease 25.4s forwards; }
+
+  .s7 .head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+    opacity: 0;
+  }
+  .running .s7 .head { animation: typeIn 0.6s ease 0.3s forwards; }
+
+  .s7 .stamp { font-size: clamp(3.5rem, 14vw, 12rem); opacity: 0; margin-bottom: 0.4rem; }
+  .running .s7 .stamp { animation: stampIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.7s forwards; }
+
+  .s7 .line {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 2.6vw, 2.2rem);
+    color: var(--green-soft);
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0;
+  }
+  .running .s7 .line { animation: typeIn 0.7s ease 1.4s forwards; }
+
+  /* === SCENE 8 — End Card === */
+  .s8 {
+    background: var(--yellow);
+  }
+  .running .s8 { animation: fadeFinal 6s ease 29.0s forwards; }
+  @keyframes fadeFinal {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  .s8 .lockup-final {
+    text-align: center;
+  }
+
+  .s8 .bottle-end {
+    width: clamp(80px, 14vw, 160px);
+    margin: 0 auto 2rem;
+    opacity: 0;
+    filter: drop-shadow(0 20px 30px rgba(15, 61, 46, 0.18));
+  }
+  .running .s8 .bottle-end { animation: typeIn 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) 0.4s forwards; }
+
+  .s8 .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5.2vw, 4.5rem);
+    color: var(--green);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    opacity: 0;
+  }
+  .running .s8 .wordmark { animation: wordmarkIn 1.2s cubic-bezier(0.2, 0.9, 0.25, 1) 1.0s forwards; }
+  @keyframes wordmarkIn {
+    from { opacity: 0; letter-spacing: 0.6em; }
+    to   { opacity: 1; letter-spacing: 0.32em; }
+  }
+
+  .s8 .tag {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2vw, 1.7rem);
+    color: var(--green-soft);
+    margin-top: 0.6rem;
+    opacity: 0;
+  }
+  .running .s8 .tag { animation: typeIn 0.8s ease 2.2s forwards; }
+
+  .s8 .tag-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(0.85rem, 1.3vw, 1.15rem);
+    color: var(--green-soft);
+    margin-top: 0.25rem;
+    opacity: 0;
+  }
+  .running .s8 .tag-sub { animation: typeIn 0.8s ease 3.0s forwards; }
+
+  .s8 .cta {
+    position: absolute;
+    bottom: 8%;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 1vw, 0.95rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--green);
+    opacity: 0;
+  }
+  .running .s8 .cta { animation: typeIn 0.6s ease 4.2s forwards; }
+
+  /* === Controls === */
+  .controls {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .controls.show { opacity: 1; }
+  .ctrl {
+    background: var(--green);
+    color: var(--yellow);
+    border: none;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .ctrl:hover { transform: scale(1.05); }
+  .ctrl.alt { background: rgba(15, 61, 46, 0.1); color: var(--green); }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--green);
+    z-index: 100;
+    transition: width 0.1s linear;
+  }
+
+  /* Counter (scene number, top-left) */
+  .counter {
+    position: fixed;
+    top: 24px;
+    left: 26px;
+    z-index: 90;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--green);
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <!-- SCENE 1 — Cold Open (0–3s) -->
+  <section class="scene s1">
+    <div class="day">Day 3.</div>
+    <div class="op">OPERATION&nbsp;:&nbsp;COUGH&nbsp;SYRUP</div>
+  </section>
+
+  <!-- SCENE 2 — Two Failed Attempts (3–8.5s) -->
+  <section class="scene s2">
+    <div class="head">Case No. WLP-2026-03</div>
+    <div class="stamp">STRIKES</div>
+    <div class="sub">Defendant has now refused medication —</div>
+    <div class="strikes">
+      <div class="strike x"></div>
+      <div class="strike x"></div>
+      <div class="strike x"></div>
+      <div class="strike x"></div>
+    </div>
+  </section>
+
+  <!-- SCENE 3 — The Geyser (8.5–12s) -->
+  <section class="scene s3">
+    <div class="splash"></div>
+    <div class="verdict-stamp">MISSION<br>FAILED</div>
+  </section>
+
+  <!-- SCENE 4 — Breakdown (12–16s) -->
+  <section class="scene s4">
+    <div class="quote">"There has to be a better way."</div>
+  </section>
+
+  <!-- SCENE 5 — Wellopia Reveal (16–22s) -->
+  <section class="scene s5">
+    <div class="text-side">
+      <div class="head">Exhibit C — Ingredients</div>
+      <div class="name">Wellopia<br>Throat Spray.</div>
+      <ul class="props">
+        <li>No alcohol</li>
+        <li>No sugar</li>
+        <li>Pediatrician-formulated</li>
+        <li>Tastes like — not medicine</li>
+      </ul>
+    </div>
+    <div class="visual-side">
+      <svg class="bottle" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+        <g class="spray-burst">
+          <circle class="particle p1" cx="100" cy="40" r="2.4"/>
+          <circle class="particle p2" cx="100" cy="40" r="1.8"/>
+          <circle class="particle p3" cx="100" cy="40" r="2.0"/>
+          <circle class="particle p4" cx="100" cy="40" r="1.6"/>
+          <circle class="particle p5" cx="100" cy="40" r="1.4"/>
+          <circle class="particle p6" cx="100" cy="40" r="1.7"/>
+        </g>
+        <rect x="76" y="52" width="48" height="22" rx="6" fill="#0F3D2E"/>
+        <rect x="84" y="44" width="32" height="12" rx="4" fill="#0F3D2E"/>
+        <rect x="93" y="74" width="14" height="22" fill="#0F3D2E"/>
+        <path d="M70,96 L130,96 L130,108 Q130,118 138,124 L142,128 L58,128 L62,124 Q70,118 70,108 Z" fill="#FFD96B"/>
+        <rect x="50" y="128" width="100" height="194" rx="14" fill="#FFD96B"/>
+        <rect x="56" y="134" width="14" height="180" rx="6" fill="#FFE49E" opacity="0.9"/>
+        <rect x="58" y="178" width="84" height="116" rx="6" fill="#FFFCF0"/>
+        <text x="100" y="216" text-anchor="middle" font-family="Inter" font-weight="800" font-size="14" fill="#0F3D2E" letter-spacing="3.4">WELLOPIA</text>
+        <line x1="78" y1="226" x2="122" y2="226" stroke="#0F3D2E" stroke-width="1" opacity="0.5"/>
+        <text x="100" y="248" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="9" fill="#2A6B52">Throat Relief</text>
+        <text x="100" y="262" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="9" fill="#2A6B52">Spray</text>
+        <circle cx="100" cy="280" r="1.6" fill="#0F3D2E" opacity="0.4"/>
+        <rect x="50" y="316" width="100" height="6" rx="2" fill="#F0B400"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SCENE 6 — "Aur?" (22–25.5s) -->
+  <section class="scene s6">
+    <div class="aur">Aur<span class="qmark">?</span></div>
+    <div class="ctx">— the kid, asking for more —</div>
+  </section>
+
+  <!-- SCENE 7 — The Button (25.5–29.5s) -->
+  <section class="scene s7">
+    <div class="head">Verdict — Case Reversed</div>
+    <div class="stamp">DISMISSED</div>
+    <div class="line">Now we hide <em>this</em> one.</div>
+  </section>
+
+  <!-- SCENE 8 — End Card (29–35s) -->
+  <section class="scene s8">
+    <div class="lockup-final">
+      <svg class="bottle-end" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+        <rect x="76" y="52" width="48" height="22" rx="6" fill="#0F3D2E"/>
+        <rect x="84" y="44" width="32" height="12" rx="4" fill="#0F3D2E"/>
+        <rect x="93" y="74" width="14" height="22" fill="#0F3D2E"/>
+        <path d="M70,96 L130,96 L130,108 Q130,118 138,124 L142,128 L58,128 L62,124 Q70,118 70,108 Z" fill="#FFD96B"/>
+        <rect x="50" y="128" width="100" height="194" rx="14" fill="#FFD96B"/>
+        <rect x="56" y="134" width="14" height="180" rx="6" fill="#FFE49E" opacity="0.9"/>
+        <rect x="58" y="178" width="84" height="116" rx="6" fill="#FFFCF0"/>
+        <text x="100" y="216" text-anchor="middle" font-family="Inter" font-weight="800" font-size="14" fill="#0F3D2E" letter-spacing="3.4">WELLOPIA</text>
+        <line x1="78" y1="226" x2="122" y2="226" stroke="#0F3D2E" stroke-width="1" opacity="0.5"/>
+        <text x="100" y="248" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="9" fill="#2A6B52">Throat Relief</text>
+        <text x="100" y="262" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="9" fill="#2A6B52">Spray</text>
+        <rect x="50" y="316" width="100" height="6" rx="2" fill="#F0B400"/>
+      </svg>
+      <div class="wordmark">Wellopia</div>
+      <div class="tag">Clean &amp; Joyful Care</div>
+      <div class="tag-sub">Right care. Right time. Without the stress.</div>
+    </div>
+    <div class="cta">On Amazon · Wellopia.in · Quick Commerce</div>
+  </section>
+
+</div>
+
+<div class="counter" id="counter">00 : 00 / 00 : 35</div>
+<div class="progress" id="progress"></div>
+
+<div class="controls show" id="controls">
+  <button class="ctrl alt" id="restart">↻ Replay</button>
+  <button class="ctrl" id="back">← Deck</button>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const restartBtn = document.getElementById('restart');
+  const backBtn = document.getElementById('back');
+  const TOTAL = 35.0;
+
+  function pad(n) {
+    return n.toString().padStart(2, '0');
+  }
+  function fmt(s) {
+    const mm = Math.floor(s / 60);
+    const ss = Math.floor(s % 60);
+    return `${pad(mm)} : ${pad(ss)}`;
+  }
+
+  let startTime = 0;
+  let raf;
+
+  function tick() {
+    const t = (performance.now() - startTime) / 1000;
+    const clamped = Math.min(t, TOTAL);
+    counter.textContent = `${fmt(clamped)} / ${fmt(TOTAL)}`;
+    progress.style.width = (clamped / TOTAL * 100) + '%';
+    if (clamped < TOTAL) {
+      raf = requestAnimationFrame(tick);
+    } else {
+      counter.textContent = `${fmt(TOTAL)} / ${fmt(TOTAL)}`;
+    }
+  }
+
+  function start() {
+    stage.classList.remove('running');
+    // Force reflow to restart all CSS animations
+    void stage.offsetWidth;
+    cancelAnimationFrame(raf);
+    startTime = performance.now();
+    stage.classList.add('running');
+    tick();
+  }
+
+  restartBtn.addEventListener('click', start);
+  backBtn.addEventListener('click', () => { window.location.href = './'; });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'r' || e.key === 'R') start();
+    if (e.key === 'Escape') window.location.href = './';
+  });
+
+  // Auto-start on load
+  window.addEventListener('load', () => setTimeout(start, 300));
+</script>
+</body>
+</html>
